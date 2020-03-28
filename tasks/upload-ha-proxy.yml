@@ -3,7 +3,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: czero/pvd-infrastructure-automation
+    repository: czero/rootfs
     tag: latest
 
 params:
