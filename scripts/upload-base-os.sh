@@ -22,9 +22,9 @@ else
     govc folder.create "$VM_FOLDER"
   fi
   if govc import.ova -folder "$VM_FOLDER" -name base-os-latest-ova "$file_path" | grep -q 'govc: The name 'base-os-latest-ova' already exists.'; then
-    govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
+    govc vm.clone -vm base-os-latest-ova base-os-latest
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
-    govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
+    govc vm.clone -vm base-os-latest-ova base-os-latest
   fi
 fi
