@@ -8,7 +8,7 @@ echo "The tkg path is: $file_path"
 cp "$file_path" /bin/tkg
 chmod +x /bin/tkg
 
-apt install docker
+apt -f install docker
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 cp kubectl /bin/kubectl
 chmod +x /bin/kubectl
