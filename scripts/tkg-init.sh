@@ -5,8 +5,8 @@ set -eu
 echo "Beginning tkg init script."
 file_path=$(find ./tkg-cli/ -name "tkg")
 echo "The tkg path is: $file_path"
-mv "$file_path" ~/tkg
-chmod +x tkg
+cp "$file_path" /bin/tkg
+chmod +x /bin/tkg
 
 config_path=$(find ./tkg-ci/ -name "config.yml")
 tkg init
