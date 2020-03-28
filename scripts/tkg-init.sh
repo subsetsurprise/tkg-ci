@@ -8,7 +8,7 @@ echo "The tkg path is: $file_path"
 cp "$file_path" /bin/tkg
 chmod +x /bin/tkg
 
-apt --fix-broken install
+apt --fix-broken -y install
 apt-get update
 apt-get -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common
 curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
