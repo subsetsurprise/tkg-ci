@@ -1,75 +1,76 @@
+resource_types:
+- name: file-url
+  type: docker-image
+  source:
+    repository: pivotalservices/concourse-curl-resource
+    tag: latest
 resources:
-- name: base-os-ova
-  type: s3
-  source:
-    bucket: releases
-    versioned_file: base-os-latest.ova
-    access_key_id: ACCESS-KEY
-    secret_access_key: SECRET
-- name: ha-proxy-ova
-  type: s3
-  source:
-    bucket: ((s3_bucket))
-    versioned_file: ha-proxy-latest.ova
-    access_key_id: ((s3_access_key))
-    secret_access_key: ((s3_secret))
-    endpoint: ((s3_endpoint))
 - name: tkg-ci
   type: git
   source:
     uri: git@github.com:subsetsurprise/tkg-ci.git
     branch: master
+- name: tkg-cli
+  type: file-url
+  source:
+    url: http://pvtl-jumpbox:8080/tkg
+    filename: tkg
+- name: ha-proxy-ova
+  type: file-url
+  source:
+    url: http://pvtl-jumpbox:8080/ha-proxy-latest.ova
+    filename: ha-proxy-latest.ova
+- name: base-os-ova
+  type: file-url
+  source:
+    url: http://pvtl-jumpbox:8080/base-os-latest.ova
+    filename: base-os-latest.ova
 
 jobs:
-- name: upload-ova
+- name: upload-templates
+  serial: true
   plan:
   - aggregate:
     - get: base-os-ova
     - get: ha-proxy-ova
-    - get: govc
-  - inputs:
-  - name: ha-proxy-ova
-  - name: base-os-ova
-  - task:
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: czero/pvd-infrastructure-automation
-          tag: latest
+    - get: tkg-ci
+  - task: upload-base-os-ova
+    file: tkg-ci/tasks/upload-ova.yml
     params:
+      GOVC_INSECURE: true
       GOVC_CA_CERT: ((vcenter_ca_cert))
       GOVC_DATACENTER: ((vcenter_datacenter))
       GOVC_DATASTORE: ((vcenter_datastore))
-      GOVC_HOST: ((opsman_vm_host))
+      GOVC_HOST: ((k8s_vm_host))
       GOVC_INSECURE: ((vcenter_insecure))
-      GOVC_NETWORK: ((opsman_vm_network))
+      GOVC_NETWORK: ((k8s_vm_network))
       GOVC_PASSWORD: ((vcenter_password))
       GOVC_URL: ((vcenter_host))
       GOVC_USERNAME: ((vcenter_username))
-    run:
-      path: tkg-ci/scripts/upload-ova.sh
+    inputs:
+      - base-os-ova
   - task: upload-ha-proxy-ova
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: czero/pvd-infrastructure-automation
-          tag: latest
+    file: tkg-ci/tasks/upload-ova.yml
     params:
       GOVC_CA_CERT: ((vcenter_ca_cert))
       GOVC_DATACENTER: ((vcenter_datacenter))
       GOVC_DATASTORE: ((vcenter_datastore))
-      GOVC_HOST: ((opsman_vm_host))
+      GOVC_HOST: ((k8s_vm_host))
       GOVC_INSECURE: ((vcenter_insecure))
-      GOVC_NETWORK: ((opsman_vm_network))
+      GOVC_NETWORK: ((k8s_vm_network))
       GOVC_PASSWORD: ((vcenter_password))
-      GOVC_RESOURCE_POOL: ((opsman_resource_pool))
       GOVC_URL: ((vcenter_host))
       GOVC_USERNAME: ((vcenter_username))
       VM_FOLDER: ((vm_folder))
-    run:
-      path: tkg-ci/scripts/upload-ova.sh
+    inputs:
+      - ha-proxy-ova
 - name: deploy-tkg
+  serial: true
+  plan:
+  - aggregate:
+    - get: tkg-ci
+      passed:
+      - upload-templates
+    - get: tkg-cli
+  - task: tkg-init
+    file: tkg-ci/tasks/tkg-init.yml
