@@ -13,12 +13,13 @@ echo "$GOVC_CA_CERT" > "$GOVC_TLS_CA_CERTS"
 if [ -z "$VM_FOLDER" ]; then
   if govc vm.info -r base-os-latest-ova | grep -q Name: ; then
     if govc vm.info -r base-os-latest | grep -q Name: ; then
-    exit 0
+      exit 0
     else
       govc vm.clone -vm base-os-latest-ova -on false base-os-latest
       exit 0
     fi
   else
+    echo "The OVA is being imported."
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova -on false base-os-latest
     exit 0
@@ -29,12 +30,13 @@ else
   fi
   if govc vm.info -r base-os-latest-ova | grep -q Name: ; then
     if govc vm.info -r base-os-latest | grep -q Name: ; then
-    exit 0
+      exit 0
     else
       govc vm.clone -vm base-os-latest-ova -on false base-os-latest
       exit 0
     fi
   else
+    echo "A folder has been created and the OVA is being imported."
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova -on false base-os-latest
     exit 0
