@@ -14,7 +14,7 @@ if [ -z "$VM_FOLDER" ]; then
   if govc import.ova -folder "$VM_FOLDER" -name base-os-latest-ova "$file_path" | grep -q 'govc: The name 'base-os-latest-ova' already exists.'; then
     govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
   else
-    govc import.ova -folder="$VM_FOLDER" -name=ha-proxy-latest-ova "$file_path" 
+    govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
   fi
 else
@@ -24,7 +24,7 @@ else
   if govc import.ova -folder "$VM_FOLDER" -name base-os-latest-ova "$file_path" | grep -q 'govc: The name 'base-os-latest-ova' already exists.'; then
     govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
   else
-    govc import.ova -folder="$VM_FOLDER" -name=ha-proxy-latest-ova "$file_path" 
+    govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
   fi
 fi
