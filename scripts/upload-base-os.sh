@@ -4,7 +4,7 @@ set -eu
 
 echo "I made it into the script"
 file_path=$(find ./base-os-ova/ -name "*.ova")
-uuid=$(uuidgen)
+uuid=$(date | md5sum)
 name="base-os-" + "$uuid"
 
 echo "$name"
