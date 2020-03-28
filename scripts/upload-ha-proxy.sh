@@ -22,8 +22,9 @@ else
     govc folder.create "$VM_FOLDER"
   fi
   if govc vm.info -r ha-proxy-latest-ova | grep -q Name: ; then
-    echo "A folder has been created and the OVA is being imported."
-    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path"
     exit 0
+  else
+    echo "A folder has been created and the OVA is being imported."
+    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
   fi
 fi

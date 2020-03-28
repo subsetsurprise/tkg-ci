@@ -72,3 +72,7 @@ jobs:
     - get: tkg-cli
   - task: tkg-init
     file: tkg-ci/tasks/tkg-init.yml
+    params:
+      VSPHERE_SERVER: ((vcenter_host))
+      VSPHERE_USERNAME: ((vcenter_username))
+      VSPHERE_PASSWORD: ((vcenter_password))
