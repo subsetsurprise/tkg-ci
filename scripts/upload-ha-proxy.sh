@@ -20,13 +20,11 @@ if [ -z "$VM_FOLDER" ]; then
     fi
   else
     echo "The OVA is being imported."
-    govc import.ova -folder "$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
+    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
     govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
     exit 0
   fi
 else
-  echo $VM_FOLDER
-  govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}'
   if [ "$(govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}')" != "$VM_FOLDER" ]; then
     govc folder.create "$VM_FOLDER"
   fi
@@ -39,7 +37,7 @@ else
     fi
   else
     echo "A folder has been created and the OVA is being imported."
-    govc import.ova -folder "$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
+    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
     govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
     exit 0
   fi
