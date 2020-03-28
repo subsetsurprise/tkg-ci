@@ -2,6 +2,7 @@
 
 set -eu
 
+echo "I made it into the script"
 file_path=$(find ./base-os-ova/ -name "*.ova")
 uuid=$(uuidgen)
 name="base-os-" + "$uuid"
