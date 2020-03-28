@@ -6,7 +6,7 @@ echo "Upload of the Base OS OVA has started."
 file_path=$(find ./base-os-ova/ -name "*.ova")
 
 echo "$file_path"
-govc vm.info -r base-os-latest-ova | grep Name:
+govc vm.info -r base-os-latest-ova | grep Name: | grep -q base-os-latest-ova
 
 export GOVC_TLS_CA_CERTS=/tmp/vcenter-ca.pem
 echo "$GOVC_CA_CERT" > "$GOVC_TLS_CA_CERTS"
