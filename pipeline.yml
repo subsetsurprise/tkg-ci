@@ -60,7 +60,6 @@ jobs:
       GOVC_PASSWORD: ((vcenter_password))
       GOVC_URL: ((vcenter_host))
       GOVC_USERNAME: ((vcenter_username))
-      VM_FOLDER: ((vm_folder))
     inputs:
       - ha-proxy-ova
 - name: deploy-tkg
