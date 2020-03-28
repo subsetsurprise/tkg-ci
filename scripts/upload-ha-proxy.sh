@@ -3,7 +3,7 @@
 set -eu
 
 file_path=$(find ./ha-proxy-ova/ -name "*.ova")
-uuid=$(uuidgen)
+uuid=$(date | md5sum)
 name="ha-proxy-" + "$uuid"
 
 echo "$name"
