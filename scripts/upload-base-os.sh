@@ -15,12 +15,12 @@ if [ -z "$VM_FOLDER" ]; then
     if govc vm.info -r base-os-latest | grep -q Name: ; then
     exit 0
     else
-      govc vm.clone -vm base-os-latest-ova base-os-latest
+      govc vm.clone -vm base-os-latest-ova -on false base-os-latest
       exit 0
     fi
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
-    govc vm.clone -vm base-os-latest-ova base-os-latest
+    govc vm.clone -vm base-os-latest-ova -on false base-os-latest
     exit 0
   fi
 else
@@ -31,12 +31,12 @@ else
     if govc vm.info -r base-os-latest | grep -q Name: ; then
     exit 0
     else
-      govc vm.clone -vm base-os-latest-ova base-os-latest
+      govc vm.clone -vm base-os-latest-ova -on false base-os-latest
       exit 0
     fi
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
-    govc vm.clone -vm base-os-latest-ova base-os-latest
+    govc vm.clone -vm base-os-latest-ova -on false base-os-latest
     exit 0
   fi
 fi
