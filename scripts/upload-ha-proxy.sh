@@ -15,11 +15,9 @@ if govc vm.info -r ha-proxy-latest-ova | grep -q Name:; then
     exit 0
   else
     govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
-    exit 0
   fi
 else
   echo "The OVA is being imported."
   govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path"
   govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
-  exit 0
 fi
