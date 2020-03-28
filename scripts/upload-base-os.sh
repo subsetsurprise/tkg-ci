@@ -13,9 +13,11 @@ echo "$GOVC_CA_CERT" > "$GOVC_TLS_CA_CERTS"
 if [ -z "$VM_FOLDER" ]; then
   if govc vm.info -r base-os-latest-ova | grep -q Name: ; then
     govc vm.clone -vm base-os-latest-ova base-os-latest
+    exit 0
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova base-os-latest
+    exit 0
   fi
 else
   if [ "$(govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}')" != "$VM_FOLDER" ]; then
@@ -23,8 +25,10 @@ else
   fi
   if govc import.ova -folder "$VM_FOLDER" -name base-os-latest-ova "$file_path" | grep -q 'govc: The name 'base-os-latest-ova' already exists.'; then
     govc vm.clone -vm base-os-latest-ova base-os-latest
+    exit 0
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
     govc vm.clone -vm base-os-latest-ova base-os-latest
+    exit 0
   fi
 fi
