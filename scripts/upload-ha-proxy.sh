@@ -6,6 +6,7 @@ echo "Upload of the HA Proxy OVA has started."
 file_path=$(find ./ha-proxy-ova/ -name "*.ova")
 
 echo "$file_path"
+govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
 
 export GOVC_TLS_CA_CERTS=/tmp/vcenter-ca.pem
 echo "$GOVC_CA_CERT" >"$GOVC_TLS_CA_CERTS"
