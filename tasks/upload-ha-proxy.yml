@@ -20,5 +20,6 @@ params:
 
 inputs:
   - name: tkg-ci
+  - name: ha-proxy-ova
 run:
   path: tkg-ci/scripts/upload-ha-proxy.sh

@@ -8,22 +8,22 @@ resources:
 - name: tkg-ci
   type: git
   source:
-    uri: git@github.com:subsetsurprise/tkg-ci.git
+    uri: https://github.com/subsetsurprise/tkg-ci.git
     branch: master
 - name: tkg-cli
   type: file-url
   source:
-    url: http://pvtl-jumpbox:8080/tkg
+    url: http://pvtl-jumpbox.qc.on-target.tech:8080/tkg
     filename: tkg
 - name: ha-proxy-ova
   type: file-url
   source:
-    url: http://pvtl-jumpbox:8080/ha-proxy-latest.ova
+    url: http://pvtl-jumpbox.qc.on-target.tech:8080/ha-proxy-latest.ova
     filename: ha-proxy-latest.ova
 - name: base-os-ova
   type: file-url
   source:
-    url: http://pvtl-jumpbox:8080/base-os-latest.ova
+    url: http://pvtl-jumpbox.qc.on-target.tech:8080/base-os-latest.ova
     filename: base-os-latest.ova
 
 jobs:
@@ -35,9 +35,8 @@ jobs:
     - get: ha-proxy-ova
     - get: tkg-ci
   - task: upload-base-os-ova
-    file: tkg-ci/tasks/upload-ova.yml
+    file: tkg-ci/tasks/upload-base-os.yml
     params:
-      GOVC_INSECURE: true
       GOVC_CA_CERT: ((vcenter_ca_cert))
       GOVC_DATACENTER: ((vcenter_datacenter))
       GOVC_DATASTORE: ((vcenter_datastore))
@@ -50,7 +49,7 @@ jobs:
     inputs:
       - base-os-ova
   - task: upload-ha-proxy-ova
-    file: tkg-ci/tasks/upload-ova.yml
+    file: tkg-ci/tasks/upload-ha-proxy.yml
     params:
       GOVC_CA_CERT: ((vcenter_ca_cert))
       GOVC_DATACENTER: ((vcenter_datacenter))

@@ -20,5 +20,6 @@ params:
 
 inputs:
   - name: tkg-ci
+  - name: base-os-ova
 run:
   path: tkg-ci/scripts/upload-base-os.sh
