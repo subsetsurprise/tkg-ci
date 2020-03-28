@@ -12,16 +12,8 @@ echo "$GOVC_CA_CERT" > "$GOVC_TLS_CA_CERTS"
 
 if [ -z "$VM_FOLDER" ]; then
   if govc vm.info -r ha-proxy-latest-ova | grep -q Name: ; then
-    if govc vm.info -r ha-proxy-latest | grep -q Name: ; then
-      exit 0
-    else
-      govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
-      exit 0
-    fi
-  else
     echo "The OVA is being imported."
     govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
-    govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
     exit 0
   fi
 else
@@ -29,16 +21,8 @@ else
     govc folder.create "$VM_FOLDER"
   fi
   if govc vm.info -r ha-proxy-latest-ova | grep -q Name: ; then
-    if govc vm.info -r ha-proxy-latest | grep -q Name: ; then
-      exit 0
-    else
-      govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
-      exit 0
-    fi
-  else
     echo "A folder has been created and the OVA is being imported."
-    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path" 
-    govc vm.clone -vm ha-proxy-latest-ova -on false ha-proxy-latest
+    govc import.ova -folder="$VM_FOLDER" -name ha-proxy-latest-ova "$file_path"
     exit 0
   fi
 fi
