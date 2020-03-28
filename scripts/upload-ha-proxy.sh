@@ -25,7 +25,7 @@ if [ -z "$VM_FOLDER" ]; then
     exit 0
   fi
 else
-  if [ "$(govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}')" != "$VM_FOLDER" ]; then
+  if [ "$(govc folder.info "$VM_FOLDER" 2>&1 | grep "Name:" | awk '{print $2}')" != "$VM_FOLDER" ]; then
     govc folder.create "$VM_FOLDER"
   fi
   if govc vm.info -r ha-proxy-latest-ova | grep -q Name: ; then
