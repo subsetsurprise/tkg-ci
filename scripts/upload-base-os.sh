@@ -11,7 +11,7 @@ export GOVC_TLS_CA_CERTS=/tmp/vcenter-ca.pem
 echo "$GOVC_CA_CERT" > "$GOVC_TLS_CA_CERTS"
 
 if [ -z "$VM_FOLDER" ]; then
-  if govc vm.info -r $vm | grep Name: | grep -q 'base-os-latest-ova'; then
+  if govc vm.info -r base-os-latest-ova | grep Name: | grep -q 'base-os-latest-ova'; then
     govc vm.clone -vm base-os-latest-ova -snapshot $(govc snapshot.tree -vm base-os-latest-ova -C) base-os-latest
   else
     govc import.ova -folder="$VM_FOLDER" -name base-os-latest-ova "$file_path" 
