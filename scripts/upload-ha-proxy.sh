@@ -25,6 +25,7 @@ if [ -z "$VM_FOLDER" ]; then
     exit 0
   fi
 else
+  echo $VM_FOLDER
   govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}'
   if [ "$(govc folder.info "$VM_FOLDER" 2>&1 | grep "$VM_FOLDER" | awk '{print $2}')" != "$VM_FOLDER" ]; then
     govc folder.create "$VM_FOLDER"
